@@ -2,12 +2,15 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  height: 100vh;
 
 }
 
 .kanban-container {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  width: 100%;
 }
 .dropdown-arrow{
   margin-left:8px;
@@ -16,9 +19,12 @@ body {
 .navbar {
   display: flex;
   justify-content: flex-start;
-  margin-bottom: 20px;
-  background-color: rgb(233, 232, 232);
-  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 20px;
+  width: 100%;
 }
 .filteri {
   margin: 0;
@@ -107,7 +113,14 @@ body {
   background-color: #f7f9fc;
   padding: 10px;
   width: 100%;
+height: 100vh;
   border-radius: 5px;
+}
+.noti{
+  text-align: center;
+  font-size: 10px;
+  font-weight: 500;
+  color: #333;
 }
 
 .kanban-column-header {
@@ -145,10 +158,11 @@ body {
 
 .add-btn, .menu-btn {
   border: none;
-  background-color: transparent;
+  background-color:#a1a3a4;
   font-size: 20px;
   cursor: pointer;
   rotate: 90deg;
+
 }
 
 .ticket {
@@ -158,23 +172,16 @@ body {
   border: 1px solid #d8dadb;
   border-radius: 5px;
   max-width: 18vw;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 3px 0px, rgba(0, 0, 0, 0.03) 0px 1px 2px 0px;
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
+  transition: box-shadow 0.3s ease; 
 }
-
-.ticket:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
-}
-
-
 
 .ticket-meta {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 5px;
+  gap: 10px;
 }
 
 .priority {
@@ -185,7 +192,7 @@ body {
 
 .ticket-type {                
   padding: 4px 8px;
-  border: 1px solid #dadada;
+  border: 1px solid #e7e7e7;
   border-radius: 4px;                
   display: inline-flex;
   color: #a1a3a4;
@@ -207,26 +214,21 @@ body {
   display: flex;
   padding: 6px 2px;
   border-radius: 4px;  
-  border: 1px solid #dadada;                   
+  border: 1px solid #e7e7e7;                   
   align-items: center;             
   justify-content: center;
   rotate: 90deg;         
 }
 .threedots {
-  font-size: 12px; /* Adjust the size as needed */
-  color: #a1a3a4; /* Change to your desired color */
-  transition: color 0.3s ease; /* Optional: smooth color transition */
+  font-size: 12px; 
+  color: #a1a3a4; 
+  transition: color 0.3s ease; 
 }
 
 .threedots:hover {
-  color: #0056b3; /* Change to a different color on hover (optional) */
+  color: #0056b3; 
 }
 
-.user-avatar {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
 button svg {
   margin-left: 5px;
 }
@@ -272,52 +274,51 @@ button svg {
 
 
 .ticket-header {
-  display: flex;                  /* Use flexbox for header alignment */
-  align-items: center;           /* Vertically center items */
-  justify-content: flex-start;   /* Align items to the start */
+  display: flex;                  
+  align-items: center;           
+  justify-content:space-between;   
 }
 
 .ticket-id {
   padding-right: 10px;
-  white-space: nowrap;             /* Space between id and avatar */
-  font-weight:500;            /* Bold for better visibility */
+  white-space: nowrap;             
+  font-weight:500;            
   color:#92959a;
   font-size: 11px;
 }
 .user-avatar {
-  width: 20px;                  /* Set width of the avatar */
-  height:20px;                 /* Set height of the avatar */
-  border-radius: 50%;           /* Make it circular */
-  object-fit: cover;            /* Ensure the image covers the area without distortion */
-  padding-left: 70%;
+  width: 20px;                  
+  height:20px;                 
+  border-radius: 50%;           
+  object-fit: cover;           
 }
 .title {
-  white-space: nowrap; /* Prevents text from wrapping to the next line */
-  overflow: hidden; /* Hides the overflowing text */
-  text-overflow: ellipsis; /* Adds ellipsis (...) to the end of the text if it overflows */
-  margin: 0; /* Reset default margins */
+  margin: 0;
+  line-height: 130%; 
+  margin-bottom: 10px;
   font-size: 11px;
   font-weight:500;
+  color: #3d3d3d;
 }
 
 .column-title {
   display: flex;
-  align-items: center; /* Aligns items vertically in the center */
+  align-items: center; 
   font-weight: 500;
   font-size: 12px;
   color: #1a1a1a;
 }
 
 .column-icon {
-  width: 24px; /* Adjust the icon width */
-  height: auto; /* Maintain aspect ratio */
+  width: 24px; 
+  height: auto;
   margin-left: 10px;
   opacity: 80%;
 }
 .ticket-count {
-  margin-left: 8px; /* Space between name and count */
-  font-size: 14px; /* Adjust size as needed */
-  color: #666; /* Change to a lighter color for less emphasis */
+  margin-left: 8px; 
+  font-size: 13px; 
+  color: #666; 
 }
 .prio{
   font-size: 10px;

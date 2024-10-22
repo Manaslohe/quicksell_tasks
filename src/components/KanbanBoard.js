@@ -1,8 +1,9 @@
-import { FaClipboardList, FaPlay, FaCheckCircle, FaTimesCircle, FaCircle, FaRegCircle } from 'react-icons/fa';
 import React, { useState, useEffect } from 'react';
-import Ticket from './Ticket';
-import '../App.css';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { FaSlidersH, FaChevronDown } from 'react-icons/fa';
+import Column from './Column';
+import '../App.css';
 
 const KanbanBoard = () => {
   const [tickets, setTickets] = useState([]);
@@ -11,11 +12,11 @@ const KanbanBoard = () => {
   const [error, setError] = useState(null);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
+  // Fetch tickets from API
   useEffect(() => {
     fetch('https://api.quicksell.co/v1/internal/frontend-assignment')
       .then((response) => response.json())
       .then((data) => {
-        console.log('Fetched Data:', data);
         if (Array.isArray(data)) {
           setTickets(data);
         } else if (data && data.tickets && Array.isArray(data.tickets)) {
@@ -26,22 +27,42 @@ const KanbanBoard = () => {
       })
       .catch((error) => {
         setError('Error fetching data');
-        console.error('Error fetching data:', error);
       });
   }, []);
 
-  const handleGrouping = (e) => {
-    setGrouping(e.target.value);
+  // Retrieve saved grouping and sorting preferences from localStorage on mount
+  useEffect(() => {
+    const savedGrouping = localStorage.getItem('grouping');
+    const savedSorting = localStorage.getItem('sorting');
+    if (savedGrouping) setGrouping(savedGrouping);
+    if (savedSorting) setSorting(savedSorting);
+  }, []);
+
+  // Save grouping and sorting preferences to localStorage when they change
+  useEffect(() => {
+    localStorage.setItem('grouping', grouping);
+    localStorage.setItem('sorting', sorting);
+  }, [grouping, sorting]);
+
+  const statusMap = {
+    "backlog": "Backlog",
+    "todo": "Todo",
+    "In progress": "In Progress",
+    "done": "Done",
+    "canceled": "Canceled"
   };
 
-  const handleSorting = (e) => {
-    setSorting(e.target.value);
+  const priorityMap = {
+    4: 'Urgent',
+    3: 'High',
+    2: 'Medium',
+    1: 'Low',
+    0: 'No Priority'
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!isDropdownOpen);
-  };
+  const requiredStatuses = ['Backlog', 'Todo', 'In Progress', 'Done', 'Canceled'];
 
+  // Sort tickets based on the selected sorting option
   const sortedTickets = [...tickets].sort((a, b) => {
     if (sorting === 'priority') {
       return b.priority - a.priority;
@@ -50,8 +71,17 @@ const KanbanBoard = () => {
     }
   });
 
+  // Group tickets dynamically based on the selected grouping option
   const groupedTickets = sortedTickets.reduce((groups, ticket) => {
-    const key = ticket[grouping];
+    let key;
+    if (grouping === 'status') {
+      key = statusMap[ticket.status] || ticket.status;
+    } else if (grouping === 'user') {
+      key = ticket.userId || 'Unassigned';
+    } else if (grouping === 'priority') {
+      key = priorityMap[ticket.priority] || 'No Priority';
+    }
+
     if (!groups[key]) {
       groups[key] = [];
     }
@@ -59,68 +89,80 @@ const KanbanBoard = () => {
     return groups;
   }, {});
 
-  const columns = [
-    { name: "Backlog", icon: <FaClipboardList style={{ color: '#ffcc00' }} />, color: '#ffcc00' },
-    { name: "Todo", icon: <FaRegCircle style={{ color: '#007bff' }} />, color: '#007bff' },
-    { name: "In Progress", icon: <FaCheckCircle style={{ color: '#ffc107' }} />, color: '#ffc107' },
-    { name: "Completed", icon: <FaCheckCircle style={{ color: '#28a745' }} />, color: '#28a745' },
-    { name: "Canceled", icon: <FaTimesCircle style={{ color: '#dc3545' }} />, color: '#dc3545' }
-  ];
+  // Ensure all required statuses are present when grouping by status
+  function ensureStatuses(groupedTickets) {
+    if (grouping !== 'status') {
+      return groupedTickets;
+    }
+
+    requiredStatuses.forEach((status) => {
+      if (!groupedTickets[status]) {
+        groupedTickets[status] = [];
+      }
+    });
+    return groupedTickets;
+  }
+
+  const columns = Object.keys(ensureStatuses(groupedTickets)).map((key) => ({
+    name: key,
+    tickets: groupedTickets[key]
+  }));
+
+  // Handle ticket drop event
+  const handleDrop = (ticketId, newStatus) => {
+    setTickets((prevTickets) =>
+      prevTickets.map((ticket) =>
+        ticket.id === ticketId ? { ...ticket, status: newStatus } : ticket
+      )
+    );
+  };
 
   if (error) {
     return <div>{error}</div>;
   }
 
   return (
-    <div className="kanban-container">
-      {/* Navigation Bar */}
-      <nav className="navbar">
-      <div className="display-button">
-        <button onClick={toggleDropdown}>
-          <FaSlidersH className='filteri' /> Display <FaChevronDown className='dropdown-arrow' /> {/* Add dropdown arrow */}
-        </button>
-        {isDropdownOpen && (
-          <div className="dropdown">
-            <label>
-              Grouping:
-              <select className='dropb' onChange={handleGrouping}>
-                <option value="status">Status</option>
-                <option value="user">User</option>
-                <option value="priority">Priority</option>
-              </select>
-            </label>
-            <label>
-              Ordering:
-              <select className='dropb' onChange={handleSorting}>
-                <option value="priority">Priority</option>
-                <option value="title">Title</option>
-              </select>
-            </label>
+    <DndProvider backend={HTML5Backend}>
+      <div className="kanban-container">
+        <nav className="navbar">
+          <div className="display-button">
+            <button onClick={() => setDropdownOpen(!isDropdownOpen)}>
+              <FaSlidersH className='filteri' /> Display <FaChevronDown className='dropdown-arrow' />
+            </button>
+            {isDropdownOpen && (
+              <div className="dropdown">
+                <label>
+                  Grouping:
+                  <select className='dropb' onChange={(e) => setGrouping(e.target.value)} value={grouping}>
+                    <option value="status">Status</option>
+                    <option value="user">User</option>
+                    <option value="priority">Priority</option>
+                  </select>
+                </label>
+                <label>
+                  Ordering:
+                  <select className='dropb' onChange={(e) => setSorting(e.target.value)} value={sorting}>
+                    <option value="priority">Priority</option>
+                    <option value="title">Title</option>
+                  </select>
+                </label>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </nav>
-      <div className="kanban-board">
-  {columns.map((column) => (
-    <div key={column.name} className="kanban-column">
-      <div className="kanban-column-header">
-        <p className="column-title">
-          <span className="column-icon">{column.icon}</span>
-          <span>{column.name}</span>
-          <span className="ticket-count">({column.ticketCount})</span>
-        </p>
-        <div className="column-actions">
-          <button className="add-btn">+</button>
-          <button className="menu-btn">⋮</button>
+        </nav>
+
+        <div className="kanban-board">
+          {columns.map((column) => (
+            <Column
+              key={column.name}
+              column={column}
+              tickets={column.tickets}
+              onDrop={handleDrop}
+            />
+          ))}
         </div>
       </div>
-            {groupedTickets[column.name]?.map((ticket) => (
-              <Ticket key={ticket.id} ticket={ticket} />
-            )) || <p>No tickets</p>}
-          </div>
-        ))}
-      </div>
-    </div>
+    </DndProvider>
   );
 };
 
