@@ -22,7 +22,8 @@ const fetchedData = {
   }, {});
   
 
-  
+ 
+
   const Ticket = ({ ticket }) => {
     const {
       title = 'Untitled',
@@ -54,7 +55,9 @@ const fetchedData = {
       />
     )}
   </div>
-  <h3>{title}</h3>
+  <p className="title">
+      {title}
+    </p>
       <div className="ticket-meta">
         {/* Three-dot menu icon */}
         <div className="menu-icon" onClick={togglePriority}>
@@ -72,8 +75,9 @@ const fetchedData = {
       {/* Conditional display of priority level */}
       {showPriority && (
         <div className="priority-popup">
-          <p>Priority Level: {priority}</p>
+          <p className='prio'>Priority Level: {priority}</p>
         </div>
+        
       )}
     </div>
   );

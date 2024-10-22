@@ -16,10 +16,11 @@ body {
   background-color: whitesmoke;
   padding: 20px;
 }
-.filteri{
+.filteri {
   margin: 0;
   margin-right: 5px;
 }
+
 .display-button {
   position: relative;
 }
@@ -35,11 +36,13 @@ body {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   align-items: center;
+  border-radius: 6px;  
+  border: 1px solid #c0c2c3;    
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .display-button button:hover {
-  background-color: #9d9d9d;
+  background-color:#c0c2c3;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -53,8 +56,9 @@ body {
   top: 50px;
   left: 0;
   z-index: 1;
-  border-radius: 8px;
-  width: 250px; /* Adjust width based on the content */
+  border-radius: 6px;  
+  border: 1px solid #c0c2c3;    
+  width: 250px;
 }
 
 .dropdown label {
@@ -67,7 +71,7 @@ body {
 }
 
 .dropdown label span {
-  flex-grow: 1; /* Makes the label span the available space */
+  flex-grow: 1;
 }
 
 .dropdown select {
@@ -76,7 +80,7 @@ body {
   font-size: 14px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  width: 120px; /* Set a fixed width for select to align at the right */
+  width: 120px;
   transition: border-color 0.2s ease;
 }
 
@@ -87,10 +91,10 @@ body {
 .dropdown label:last-of-type {
   margin-bottom: 0;
 }
+
 .kanban-board {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
 }
 
 .kanban-column {
@@ -145,6 +149,7 @@ body {
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
+  max-width: 18vw;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;                  /* Use flexbox for the ticket layout */
   flex-direction: column;         /* Stack elements vertically */
@@ -182,14 +187,14 @@ body {
   border-radius: 3px;
 }
 
-.ticket-type {
-  position: relative;                  
+.ticket-type {                
   padding: 4px 8px;
   border: 1px solid #d2cfcf;
   border-radius: 4px;                
   display: inline-flex;
-  font-size: 9px;              
-  align-items: center;               
+  color: #9d9d9d;
+  font-weight: bold;
+  font-size: 10px;                          
 }
 
 .ticket-type::before {
@@ -197,7 +202,7 @@ body {
   width: 10px;                      
   height: 10px;                     
   border-radius: 50%;               
-  background-color: rgb(225, 225, 225);          
+  background-color: #9d9d9d;          
   margin-right: 4px;               
 }
 
@@ -206,14 +211,14 @@ body {
   display: flex;
   padding: 8px 4px;
   border-radius: 4px;  
-  border: 1px solid #d2cfcf;                   
+  border: 1px solid #9d9d9d;                   
   align-items: center;             
   justify-content: center;
   rotate: 90deg;         
 }
 .threedots {
   font-size: 10px; /* Adjust the size as needed */
-  color: #b0b0b0; /* Change to your desired color */
+  color: #9d9d9d; /* Change to your desired color */
   transition: color 0.3s ease; /* Optional: smooth color transition */
 }
 
@@ -288,8 +293,17 @@ button svg {
   height:20px;                 /* Set height of the avatar */
   border-radius: 50%;           /* Make it circular */
   object-fit: cover;            /* Ensure the image covers the area without distortion */
-  padding-left: 10vw;
+  padding-left: 70%;
 }
+.title {
+  white-space: nowrap; /* Prevents text from wrapping to the next line */
+  overflow: hidden; /* Hides the overflowing text */
+  text-overflow: ellipsis; /* Adds ellipsis (...) to the end of the text if it overflows */
+  margin: 0; /* Reset default margins */
+  font-size: 12px;
+  font-weight:bold;
+}
+
 .column-title {
   display: flex;
   align-items: center; /* Aligns items vertically in the center */
@@ -303,4 +317,14 @@ button svg {
   width: 24px; /* Adjust the icon width */
   height: auto; /* Maintain aspect ratio */
   margin-right: 8px; /* Optional: adds space between the icon and the text */
+}
+.ticket-count {
+  margin-left: 8px; /* Space between name and count */
+  font-size: 14px; /* Adjust size as needed */
+  color: #666; /* Change to a lighter color for less emphasis */
+}
+.prio{
+  font-size: 10px;
+  margin: 0;
+  margin-top: 10px;
 }

@@ -1,8 +1,8 @@
-import { FaClipboardList, FaPlay, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaClipboardList, FaPlay, FaCheckCircle, FaTimesCircle, FaCircle, FaRegCircle } from 'react-icons/fa';
 import React, { useState, useEffect } from 'react';
 import Ticket from './Ticket';
 import '../App.css';
-import { FaFilter } from 'react-icons/fa';
+import { FaFilter, FaChevronDown } from 'react-icons/fa';
 
 const KanbanBoard = () => {
   const [tickets, setTickets] = useState([]);
@@ -61,7 +61,7 @@ const KanbanBoard = () => {
 
   const columns = [
     { name: "Backlog", icon: <FaClipboardList style={{ color: '#ffcc00' }} />, color: '#ffcc00' },
-    { name: "Todo", icon: <FaPlay style={{ color: '#007bff' }} />, color: '#007bff' },
+    { name: "Todo", icon: <FaRegCircle style={{ color: '#007bff' }} />, color: '#007bff' },
     { name: "In Progress", icon: <FaCheckCircle style={{ color: '#ffc107' }} />, color: '#ffc107' },
     { name: "Completed", icon: <FaCheckCircle style={{ color: '#28a745' }} />, color: '#28a745' },
     { name: "Canceled", icon: <FaTimesCircle style={{ color: '#dc3545' }} />, color: '#dc3545' }
@@ -75,31 +75,31 @@ const KanbanBoard = () => {
     <div className="kanban-container">
       {/* Navigation Bar */}
       <nav className="navbar">
-        <div className="display-button">
-          <button onClick={toggleDropdown}>
-            <FaFilter className='filteri' /> Display
-          </button>
-          {isDropdownOpen && (
-            <div className="dropdown">
-              <label>
-                Grouping:
-                <select className='dropb' onChange={handleGrouping}>
-                  <option value="status">Status</option>
-                  <option value="user">User</option>
-                  <option value="priority">Priority</option>
-                </select>
-              </label>
-              <label>
-                Ordering:
-                <select className='dropb' onChange={handleSorting}>
-                  <option value="priority">Priority</option>
-                  <option value="title">Title</option>
-                </select>
-              </label>
-            </div>
-          )}
-        </div>
-      </nav>
+      <div className="display-button">
+        <button onClick={toggleDropdown}>
+          <FaFilter className='filteri' /> Display <FaChevronDown className='dropdown-arrow' /> {/* Add dropdown arrow */}
+        </button>
+        {isDropdownOpen && (
+          <div className="dropdown">
+            <label>
+              Grouping:
+              <select className='dropb' onChange={handleGrouping}>
+                <option value="status">Status</option>
+                <option value="user">User</option>
+                <option value="priority">Priority</option>
+              </select>
+            </label>
+            <label>
+              Ordering:
+              <select className='dropb' onChange={handleSorting}>
+                <option value="priority">Priority</option>
+                <option value="title">Title</option>
+              </select>
+            </label>
+          </div>
+        )}
+      </div>
+    </nav>
       <div className="kanban-board">
   {columns.map((column) => (
     <div key={column.name} className="kanban-column">
@@ -107,6 +107,7 @@ const KanbanBoard = () => {
         <h2 className="column-title">
           <span className="column-icon">{column.icon}</span>
           <span>{column.name}</span>
+          <span className="ticket-count">({column.ticketCount})</span>
         </h2>
         <div className="column-actions">
           <button className="add-btn">+</button>
