@@ -2,7 +2,7 @@ import { FaClipboardList, FaPlay, FaCheckCircle, FaTimesCircle, FaCircle, FaRegC
 import React, { useState, useEffect } from 'react';
 import Ticket from './Ticket';
 import '../App.css';
-import { FaFilter, FaChevronDown } from 'react-icons/fa';
+import { FaSlidersH, FaChevronDown } from 'react-icons/fa';
 
 const KanbanBoard = () => {
   const [tickets, setTickets] = useState([]);
@@ -77,7 +77,7 @@ const KanbanBoard = () => {
       <nav className="navbar">
       <div className="display-button">
         <button onClick={toggleDropdown}>
-          <FaFilter className='filteri' /> Display <FaChevronDown className='dropdown-arrow' /> {/* Add dropdown arrow */}
+          <FaSlidersH className='filteri' /> Display <FaChevronDown className='dropdown-arrow' /> {/* Add dropdown arrow */}
         </button>
         {isDropdownOpen && (
           <div className="dropdown">
@@ -104,11 +104,11 @@ const KanbanBoard = () => {
   {columns.map((column) => (
     <div key={column.name} className="kanban-column">
       <div className="kanban-column-header">
-        <h2 className="column-title">
+        <p className="column-title">
           <span className="column-icon">{column.icon}</span>
           <span>{column.name}</span>
           <span className="ticket-count">({column.ticketCount})</span>
-        </h2>
+        </p>
         <div className="column-actions">
           <button className="add-btn">+</button>
           <button className="menu-btn">⋮</button>

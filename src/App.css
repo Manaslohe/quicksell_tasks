@@ -1,24 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', sans-serif;
+
 }
 
 .kanban-container {
   display: flex;
   flex-direction: column;
 }
-
+.dropdown-arrow{
+  margin-left:8px;
+  font-size: 10px;
+}
 .navbar {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 20px;
-  background-color: whitesmoke;
+  background-color: rgb(233, 232, 232);
   padding: 20px;
 }
 .filteri {
   margin: 0;
   margin-right: 5px;
+  font-size: 13px;
 }
 
 .display-button {
@@ -28,9 +33,10 @@ body {
 .display-button button {
   background-color: #ffffff;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 20px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 13px;
+  font-weight: 500;
   color: rgb(0, 0, 0);
   border-radius: 8px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -42,7 +48,7 @@ body {
 }
 
 .display-button button:hover {
-  background-color:#c0c2c3;
+  background-color:#f0f0f0;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -142,34 +148,24 @@ body {
   background-color: transparent;
   font-size: 20px;
   cursor: pointer;
+  rotate: 90deg;
 }
 
 .ticket {
   background-color: white;
   padding: 10px;
   margin-bottom: 10px;
+  border: 1px solid #d8dadb;
   border-radius: 5px;
   max-width: 18vw;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  display: flex;                  /* Use flexbox for the ticket layout */
-  flex-direction: column;         /* Stack elements vertically */
-  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease; /* Smooth transition for hover effect */
 }
 
-.ticket h3 {
-  margin: 0;
-  font-size: 1vw;  /* Responsive font size based on viewport width */
-  max-width: 100%; /* Ensure the text doesn't overflow */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.2; /* Adjust line height for readability */
-}
-
-/* Use media queries to define behavior on very small screens */
-@media (max-width: 600px) {
-  .ticket h3 {
-    font-size: 10px; /* Minimum font size for small devices */
-  }
+.ticket:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
 }
 
 
@@ -189,36 +185,36 @@ body {
 
 .ticket-type {                
   padding: 4px 8px;
-  border: 1px solid #d2cfcf;
+  border: 1px solid #dadada;
   border-radius: 4px;                
   display: inline-flex;
-  color: #9d9d9d;
-  font-weight: bold;
-  font-size: 10px;                          
+  color: #a1a3a4;
+  font-weight:600;
+  font-size: 8px;                          
 }
 
 .ticket-type::before {
   content: '';                       
-  width: 10px;                      
-  height: 10px;                     
+  width: 8px;                      
+  height: 8px;                     
   border-radius: 50%;               
-  background-color: #9d9d9d;          
+  background-color: #a1a3a4;          
   margin-right: 4px;               
 }
 
 .menu-icon {
   cursor: pointer;                  
   display: flex;
-  padding: 8px 4px;
+  padding: 6px 2px;
   border-radius: 4px;  
-  border: 1px solid #9d9d9d;                   
+  border: 1px solid #dadada;                   
   align-items: center;             
   justify-content: center;
   rotate: 90deg;         
 }
 .threedots {
-  font-size: 10px; /* Adjust the size as needed */
-  color: #9d9d9d; /* Change to your desired color */
+  font-size: 12px; /* Adjust the size as needed */
+  color: #a1a3a4; /* Change to your desired color */
   transition: color 0.3s ease; /* Optional: smooth color transition */
 }
 
@@ -284,8 +280,8 @@ button svg {
 .ticket-id {
   padding-right: 10px;
   white-space: nowrap;             /* Space between id and avatar */
-  font-weight: bold;              /* Bold for better visibility */
-  color: #aaa;
+  font-weight:500;            /* Bold for better visibility */
+  color:#92959a;
   font-size: 11px;
 }
 .user-avatar {
@@ -300,23 +296,23 @@ button svg {
   overflow: hidden; /* Hides the overflowing text */
   text-overflow: ellipsis; /* Adds ellipsis (...) to the end of the text if it overflows */
   margin: 0; /* Reset default margins */
-  font-size: 12px;
-  font-weight:bold;
+  font-size: 11px;
+  font-weight:500;
 }
 
 .column-title {
   display: flex;
   align-items: center; /* Aligns items vertically in the center */
-}
-
-.column-title span {
-  margin-left: 8px; /* Space between icon and text */
+  font-weight: 500;
+  font-size: 12px;
+  color: #1a1a1a;
 }
 
 .column-icon {
   width: 24px; /* Adjust the icon width */
   height: auto; /* Maintain aspect ratio */
-  margin-right: 8px; /* Optional: adds space between the icon and the text */
+  margin-left: 10px;
+  opacity: 80%;
 }
 .ticket-count {
   margin-left: 8px; /* Space between name and count */
