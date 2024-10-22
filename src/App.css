@@ -1,38 +1,306 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.kanban-container {
   display: flex;
   flex-direction: column;
+}
+
+.navbar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  background-color: whitesmoke;
+  padding: 20px;
+}
+.filteri{
+  margin: 0;
+  margin-right: 5px;
+}
+.display-button {
+  position: relative;
+}
+
+.display-button button {
+  background-color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+  border-radius: 8px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
   align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.display-button button:hover {
+  background-color: #9d9d9d;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background: #ffffff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 1;
+  border-radius: 8px;
+  width: 250px; /* Adjust width based on the content */
+}
+
+.dropdown label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.dropdown label span {
+  flex-grow: 1; /* Makes the label span the available space */
+}
+
+.dropdown select {
+  margin-left: auto;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 120px; /* Set a fixed width for select to align at the right */
+  transition: border-color 0.2s ease;
+}
+
+.dropdown select:hover {
+  border-color: #007bff;
+}
+
+.dropdown label:last-of-type {
+  margin-bottom: 0;
+}
+.kanban-board {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.kanban-column {
+  background-color: #f7f9fc;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.kanban-column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.kanban-column-header h2 {
+  font-size: 18px;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.column-actions .add-btn, .column-actions .menu-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #555;
+  transition: color 0.2s;
+}
+
+.column-actions .add-btn:hover, .column-actions .menu-btn:hover {
+  color: #000;
+}
+
+.column-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.add-btn, .menu-btn {
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.ticket {
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;                  /* Use flexbox for the ticket layout */
+  flex-direction: column;         /* Stack elements vertically */
+  
+}
+
+.ticket h3 {
+  margin: 0;
+  font-size: 1vw;  /* Responsive font size based on viewport width */
+  max-width: 100%; /* Ensure the text doesn't overflow */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2; /* Adjust line height for readability */
+}
+
+/* Use media queries to define behavior on very small screens */
+@media (max-width: 600px) {
+  .ticket h3 {
+    font-size: 10px; /* Minimum font size for small devices */
+  }
+}
+
+
+
+.ticket-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.priority {
+  background-color: #e0e0e0;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.ticket-type {
+  position: relative;                  
+  padding: 4px 8px;
+  border: 1px solid #d2cfcf;
+  border-radius: 4px;                
+  display: inline-flex;
+  font-size: 9px;              
+  align-items: center;               
+}
+
+.ticket-type::before {
+  content: '';                       
+  width: 10px;                      
+  height: 10px;                     
+  border-radius: 50%;               
+  background-color: rgb(225, 225, 225);          
+  margin-right: 4px;               
+}
+
+.menu-icon {
+  cursor: pointer;                  
+  display: flex;
+  padding: 8px 4px;
+  border-radius: 4px;  
+  border: 1px solid #d2cfcf;                   
+  align-items: center;             
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  rotate: 90deg;         
+}
+.threedots {
+  font-size: 10px; /* Adjust the size as needed */
+  color: #b0b0b0; /* Change to your desired color */
+  transition: color 0.3s ease; /* Optional: smooth color transition */
 }
 
-.App-link {
-  color: #61dafb;
+.threedots:hover {
+  color: #0056b3; /* Change to a different color on hover (optional) */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+button svg {
+  margin-left: 5px;
+}
+.kanban-card {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.kanban-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kanban-card .card-id {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.kanban-card .user-badge {
+  background-color: #f0f0f0;
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+  padding: 5px;
+  border-radius: 50%;
+  text-align: center;
+  width: 24px;
+  height: 24px;
+}
+
+.kanban-card .card-label {
+  background-color: #f1f3f5;
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 4px;
+  display: inline-block;
+  color: #666;
+}
+
+
+.ticket-header {
+  display: flex;                  /* Use flexbox for header alignment */
+  align-items: center;           /* Vertically center items */
+  justify-content: flex-start;   /* Align items to the start */
+}
+
+.ticket-id {
+  padding-right: 10px;
+  white-space: nowrap;             /* Space between id and avatar */
+  font-weight: bold;              /* Bold for better visibility */
+  color: #aaa;
+  font-size: 11px;
+}
+.user-avatar {
+  width: 20px;                  /* Set width of the avatar */
+  height:20px;                 /* Set height of the avatar */
+  border-radius: 50%;           /* Make it circular */
+  object-fit: cover;            /* Ensure the image covers the area without distortion */
+  padding-left: 10vw;
+}
+.column-title {
+  display: flex;
+  align-items: center; /* Aligns items vertically in the center */
+}
+
+.column-title span {
+  margin-left: 8px; /* Space between icon and text */
+}
+
+.column-icon {
+  width: 24px; /* Adjust the icon width */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 8px; /* Optional: adds space between the icon and the text */
 }
