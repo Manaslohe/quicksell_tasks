@@ -214,7 +214,6 @@ const KanbanBoard = () => {
             <div key={column.name} className="kanban-column">
               <div className="kanban-column-header">
                 {getIconForColumn(column.name)}
-                <h2>{column.name}</h2>
               </div>
               <Column
                 column={column}
