@@ -4,23 +4,34 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { FaSlidersH, FaChevronDown } from 'react-icons/fa';
 import Column from './Column';
 import '../App.css';
+import BacklogIcon from '../icons_FEtask/Backlog.svg';
+import TodoIcon from '../icons_FEtask/To-do.svg';
+import InProgressIcon from '../icons_FEtask/in-progress.svg';
+import DoneIcon from '../icons_FEtask/Done.svg';
+import CancelledIcon from '../icons_FEtask/Cancelled.svg';
+import HighPriorityIcon from '../icons_FEtask/high.svg';
+import MediumPriorityIcon from '../icons_FEtask/medium.svg';
+import LowPriorityIcon from '../icons_FEtask/low.svg';
+import NoPriorityIcon from '../icons_FEtask/No-priority.svg';
+import UrgentPriorityIcon from '../icons_FEtask/urgent.svg';
+
 
 const KanbanBoard = () => {
   const [tickets, setTickets] = useState([]);
+  const [users, setUsers] = useState([]);
   const [grouping, setGrouping] = useState('status');
   const [sorting, setSorting] = useState('priority');
   const [error, setError] = useState(null);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
-  // Fetch tickets from API
+  // Fetch tickets and users from API
   useEffect(() => {
     fetch('https://api.quicksell.co/v1/internal/frontend-assignment')
       .then((response) => response.json())
       .then((data) => {
-        if (Array.isArray(data)) {
-          setTickets(data);
-        } else if (data && data.tickets && Array.isArray(data.tickets)) {
+        if (Array.isArray(data.tickets) && Array.isArray(data.users)) {
           setTickets(data.tickets);
+          setUsers(data.users);
         } else {
           throw new Error('Data format is incorrect');
         }
@@ -44,12 +55,18 @@ const KanbanBoard = () => {
     localStorage.setItem('sorting', sorting);
   }, [grouping, sorting]);
 
+  // Map userId to userName for easy lookup
+  const userMap = users.reduce((map, user) => {
+    map[user.id] = user.name;
+    return map;
+  }, {});
+
   const statusMap = {
-    "backlog": "Backlog",
-    "todo": "Todo",
-    "In progress": "In Progress",
-    "done": "Done",
-    "canceled": "Canceled"
+    backlog: 'Backlog',
+    todo: 'Todo',
+    'In progress': 'In Progress',
+    done: 'Done',
+    canceled: 'Canceled',
   };
 
   const priorityMap = {
@@ -57,12 +74,11 @@ const KanbanBoard = () => {
     3: 'High',
     2: 'Medium',
     1: 'Low',
-    0: 'No Priority'
+    0: 'No Priority',
   };
 
   const requiredStatuses = ['Backlog', 'Todo', 'In Progress', 'Done', 'Canceled'];
 
-  // Sort tickets based on the selected sorting option
   const sortedTickets = [...tickets].sort((a, b) => {
     if (sorting === 'priority') {
       return b.priority - a.priority;
@@ -71,13 +87,12 @@ const KanbanBoard = () => {
     }
   });
 
-  // Group tickets dynamically based on the selected grouping option
   const groupedTickets = sortedTickets.reduce((groups, ticket) => {
     let key;
     if (grouping === 'status') {
       key = statusMap[ticket.status] || ticket.status;
     } else if (grouping === 'user') {
-      key = ticket.userId || 'Unassigned';
+      key = userMap[ticket.userId] || 'Unassigned';
     } else if (grouping === 'priority') {
       key = priorityMap[ticket.priority] || 'No Priority';
     }
@@ -89,7 +104,6 @@ const KanbanBoard = () => {
     return groups;
   }, {});
 
-  // Ensure all required statuses are present when grouping by status
   function ensureStatuses(groupedTickets) {
     if (grouping !== 'status') {
       return groupedTickets;
@@ -105,16 +119,51 @@ const KanbanBoard = () => {
 
   const columns = Object.keys(ensureStatuses(groupedTickets)).map((key) => ({
     name: key,
-    tickets: groupedTickets[key]
+    tickets: groupedTickets[key],
   }));
 
-  // Handle ticket drop event
   const handleDrop = (ticketId, newStatus) => {
     setTickets((prevTickets) =>
       prevTickets.map((ticket) =>
         ticket.id === ticketId ? { ...ticket, status: newStatus } : ticket
       )
     );
+  };
+
+  const getIconForColumn = (name) => {
+    if (grouping === 'status') {
+      switch (name) {
+        case 'Backlog':
+          return <img src={BacklogIcon} alt="Backlog Icon" className="column-icon" />;
+        case 'Todo':
+          return <img src={TodoIcon} alt="Todo Icon" className="column-icon" />;
+        case 'In Progress':
+          return <img src={InProgressIcon} alt="In Progress Icon" className="column-icon" />;
+        case 'Done':
+          return <img src={DoneIcon} alt="Done Icon" className="column-icon" />;
+        case 'Canceled':
+          return <img src={CancelledIcon} alt="Canceled Icon" className="column-icon" />;
+        default:
+          return null;
+      }
+    } else if (grouping === 'priority') {
+      switch (name) {
+        case 'Urgent':
+          return <img src={UrgentPriorityIcon} alt="Urgent Priority Icon" className="column-icon" />;
+        case 'High':
+          return <img src={HighPriorityIcon} alt="High Priority Icon" className="column-icon" />;
+        case 'Medium':
+          return <img src={MediumPriorityIcon} alt="Medium Priority Icon" className="column-icon" />;
+        case 'Low':
+          return <img src={LowPriorityIcon} alt="Low Priority Icon" className="column-icon" />;
+        case 'No Priority':
+          return <img src={NoPriorityIcon} alt="No Priority Icon" className="column-icon" />;
+        default:
+          return null;
+      }
+    } else {
+      return null;
+    }
   };
 
   if (error) {
@@ -127,13 +176,18 @@ const KanbanBoard = () => {
         <nav className="navbar">
           <div className="display-button">
             <button onClick={() => setDropdownOpen(!isDropdownOpen)}>
-              <FaSlidersH className='filteri' /> Display <FaChevronDown className='dropdown-arrow' />
+              <FaSlidersH className="filteri" /> Display{' '}
+              <FaChevronDown className="dropdown-arrow" />
             </button>
             {isDropdownOpen && (
               <div className="dropdown">
                 <label>
                   Grouping:
-                  <select className='dropb' onChange={(e) => setGrouping(e.target.value)} value={grouping}>
+                  <select
+                    className="dropb"
+                    onChange={(e) => setGrouping(e.target.value)}
+                    value={grouping}
+                  >
                     <option value="status">Status</option>
                     <option value="user">User</option>
                     <option value="priority">Priority</option>
@@ -141,7 +195,11 @@ const KanbanBoard = () => {
                 </label>
                 <label>
                   Ordering:
-                  <select className='dropb' onChange={(e) => setSorting(e.target.value)} value={sorting}>
+                  <select
+                    className="dropb"
+                    onChange={(e) => setSorting(e.target.value)}
+                    value={sorting}
+                  >
                     <option value="priority">Priority</option>
                     <option value="title">Title</option>
                   </select>
@@ -153,12 +211,17 @@ const KanbanBoard = () => {
 
         <div className="kanban-board">
           {columns.map((column) => (
-            <Column
-              key={column.name}
-              column={column}
-              tickets={column.tickets}
-              onDrop={handleDrop}
-            />
+            <div key={column.name} className="kanban-column">
+              <div className="kanban-column-header">
+                {getIconForColumn(column.name)}
+                <h2>{column.name}</h2>
+              </div>
+              <Column
+                column={column}
+                tickets={column.tickets}
+                onDrop={handleDrop}
+              />
+            </div>
           ))}
         </div>
       </div>
