@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import myImage from '../Images/9439678.jpg'; 
-import { useDrag, useDrop } from 'react-dnd';
+import { useDrag} from 'react-dnd';
 
 const fetchedData = {
   tickets: [
@@ -39,7 +39,7 @@ const Ticket = ({ ticket }) => {
   } = ticket;
 
   const user = userMap[userId] || {};
-  const { name: userName = 'Unknown User', avatar: userAvatar } = user;
+  const {avatar: userAvatar } = user;
   const [showPriority, setShowPriority] = useState(false); 
 
 
@@ -51,13 +51,7 @@ const Ticket = ({ ticket }) => {
     <div ref={drag} className="ticket">
       <div className="ticket-header">
         <p className="ticket-id">{id}</p>
-        {userAvatar ? (
-          <img
-          src={myImage} 
-          alt="Default avatar"
-          className="user-avatar"
-        />
-        ) : (
+        {userAvatar && (
           <img
             src={myImage}
             alt="Default avatar"
