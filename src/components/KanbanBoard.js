@@ -4,17 +4,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { FaSlidersH, FaChevronDown } from 'react-icons/fa';
 import Column from './Column';
 import '../App.css';
-import BacklogIcon from '../icons_FEtask/Backlog.svg';
-import TodoIcon from '../icons_FEtask/To-do.svg';
-import InProgressIcon from '../icons_FEtask/in-progress.svg';
-import DoneIcon from '../icons_FEtask/Done.svg';
-import CancelledIcon from '../icons_FEtask/Cancelled.svg';
-import HighPriorityIcon from '../icons_FEtask/high.svg';
-import MediumPriorityIcon from '../icons_FEtask/medium.svg';
-import LowPriorityIcon from '../icons_FEtask/low.svg';
-import NoPriorityIcon from '../icons_FEtask/No-priority.svg';
-import UrgentPriorityIcon from '../icons_FEtask/urgent.svg';
-
 
 const KanbanBoard = () => {
   const [tickets, setTickets] = useState([]);
@@ -24,7 +13,6 @@ const KanbanBoard = () => {
   const [error, setError] = useState(null);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
-  // Fetch tickets and users from API
   useEffect(() => {
     fetch('https://api.quicksell.co/v1/internal/frontend-assignment')
       .then((response) => response.json())
@@ -41,7 +29,6 @@ const KanbanBoard = () => {
       });
   }, []);
 
-  // Retrieve saved grouping and sorting preferences from localStorage on mount
   useEffect(() => {
     const savedGrouping = localStorage.getItem('grouping');
     const savedSorting = localStorage.getItem('sorting');
@@ -49,13 +36,11 @@ const KanbanBoard = () => {
     if (savedSorting) setSorting(savedSorting);
   }, []);
 
-  // Save grouping and sorting preferences to localStorage when they change
   useEffect(() => {
     localStorage.setItem('grouping', grouping);
     localStorage.setItem('sorting', sorting);
   }, [grouping, sorting]);
 
-  // Map userId to userName for easy lookup
   const userMap = users.reduce((map, user) => {
     map[user.id] = user.name;
     return map;
@@ -92,7 +77,7 @@ const KanbanBoard = () => {
     if (grouping === 'status') {
       key = statusMap[ticket.status] || ticket.status;
     } else if (grouping === 'user') {
-      key = userMap[ticket.userId] || 'Unassigned';
+      key = userMap[ticket.userId] || 'Unassigned'; 
     } else if (grouping === 'priority') {
       key = priorityMap[ticket.priority] || 'No Priority';
     }
@@ -128,42 +113,6 @@ const KanbanBoard = () => {
         ticket.id === ticketId ? { ...ticket, status: newStatus } : ticket
       )
     );
-  };
-
-  const getIconForColumn = (name) => {
-    if (grouping === 'status') {
-      switch (name) {
-        case 'Backlog':
-          return <img src={BacklogIcon} alt="Backlog Icon" className="column-icon" />;
-        case 'Todo':
-          return <img src={TodoIcon} alt="Todo Icon" className="column-icon" />;
-        case 'In Progress':
-          return <img src={InProgressIcon} alt="In Progress Icon" className="column-icon" />;
-        case 'Done':
-          return <img src={DoneIcon} alt="Done Icon" className="column-icon" />;
-        case 'Canceled':
-          return <img src={CancelledIcon} alt="Canceled Icon" className="column-icon" />;
-        default:
-          return null;
-      }
-    } else if (grouping === 'priority') {
-      switch (name) {
-        case 'Urgent':
-          return <img src={UrgentPriorityIcon} alt="Urgent Priority Icon" className="column-icon" />;
-        case 'High':
-          return <img src={HighPriorityIcon} alt="High Priority Icon" className="column-icon" />;
-        case 'Medium':
-          return <img src={MediumPriorityIcon} alt="Medium Priority Icon" className="column-icon" />;
-        case 'Low':
-          return <img src={LowPriorityIcon} alt="Low Priority Icon" className="column-icon" />;
-        case 'No Priority':
-          return <img src={NoPriorityIcon} alt="No Priority Icon" className="column-icon" />;
-        default:
-          return null;
-      }
-    } else {
-      return null;
-    }
   };
 
   if (error) {
@@ -211,16 +160,13 @@ const KanbanBoard = () => {
 
         <div className="kanban-board">
           {columns.map((column) => (
-            <div key={column.name} className="kanban-column">
-              <div className="kanban-column-header">
-                {getIconForColumn(column.name)}
-              </div>
-              <Column
-                column={column}
-                tickets={column.tickets}
-                onDrop={handleDrop}
-              />
-            </div>
+            <Column
+              key={column.name}
+              column={column}
+              tickets={column.tickets}
+              onDrop={handleDrop}
+              grouping={grouping}
+            />
           ))}
         </div>
       </div>

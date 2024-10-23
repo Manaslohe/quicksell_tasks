@@ -7,9 +7,9 @@ body {
 }
 @media (max-width: 600px) {
   body {
-    flex-direction: column; /* Stack items vertically on small screens */
-    justify-content: center; /* Center items vertically */
-    align-items: center; /* Center items horizontally */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     height: auto;
     margin-right: 10px;
     padding-right: 10px;
@@ -37,7 +37,7 @@ body {
 }
 .filteri {
   margin: 0;
-  margin-right: 5px; /* Consider using a more responsive margin */
+  margin-right: 5px;
   font-size: 13px;
 }
 
@@ -45,9 +45,9 @@ body {
 .display-button button {
   background-color: #ffffff;
   border: none;
-  padding: 8px 20px; /* Default padding */
+  padding: 8px 20px; 
   cursor: pointer;
-  font-size: 13px; /* Default font size */
+  font-size: 13px;
   font-weight: 500;
   color: rgb(0, 0, 0);
   border-radius: 6px;  
@@ -56,32 +56,32 @@ body {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 .display-button {
-  display: flex; /* Use flexbox for alignment */
-  align-items: center; /* Vertically center items */
+  display: flex;
+  align-items: center; 
 
 }
-/* Responsive Styles */
+
 @media (max-width: 768px) {
   .filteri {
-    font-size: 10px; /* Adjust font size on smaller screens */
-    margin-right: 3px; /* Reduce right margin for small screens */
+    font-size: 10px;
+    margin-right: 3px;
   }
   
   .display-button button {
-    padding: 6px 16px; /* Reduce padding on smaller screens */
-    font-size: 12px; /* Slightly smaller font size */
+    padding: 6px 16px;
+    font-size: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .filteri {
-    font-size: 10px; /* Further reduce font size for small devices */
-    margin-right: 2px; /* Further reduce margin */
+    font-size: 10px;
+    margin-right: 2px; 
     }
 
   .display-button button {
-    padding: 5px 12px; /* Further reduce padding for very small screens */
-    font-size: 13px; /* Adjust font size for small devices */
+    padding: 5px 12px; 
+    font-size: 13px;
   }
 }
 
@@ -142,11 +142,11 @@ body {
   display: flex;
   justify-content: space-between;
 }
-/* Desktop view: 3 columns */
+
 .kanban-column {
   background-color: #f7f9fc;
   padding: 10px;
-  width: calc(33.33% - 20px); /* 3 columns */
+  width: calc(33.33% - 20px);
   height: auto;
   min-height: 400px;
   border-radius: 5px;
@@ -385,17 +385,17 @@ button svg {
     width: 100%;
   }
 }
-/* Tablet view: 2 columns */
+
 @media (max-width: 1024px) {
   .kanban-column {
-    width: calc(50% - 20px); /* 2 columns */
+    width: calc(50% - 20px);
   }
 }
 
-/* Mobile view: 1 column */
+
 @media (max-width: 768px) {
   .kanban-board {
-    justify-content: center; /* Center the columns */
+    justify-content: center; 
   }
   
   .kanban-column {
@@ -406,23 +406,28 @@ button svg {
 
 @media (max-width: 600px) {
   .kanban-board {
-    padding: 10px; /* Reduce padding on mobile */
-    gap: 10px; /* Reduce gap on mobile */
-    justify-content: center; /* Ensure the columns are centered */
+    padding: 10px;
+    gap: 10px;
+    justify-content: center;
   }
   
   .kanban-column {
-    width: 100%; /* Full width for mobile */
-    margin: 0 auto; /* Center the column horizontally */
+    width: 100%; 
+    margin: 0 auto;
   }
 }
-.symbol-container {
-  display: flex;
-  justify-content: center; /* Center the icon horizontally */
-  padding: 10px; /* Add some padding around the symbol */
+
+.column-icon {
+  display: inline-block;
+  width: 24px; 
+  height: auto; 
+  margin-right: 8px; 
 }
 
-.symbol-icon {
-  width: 16px;  /* Adjust size to be smaller */
-  height: 16px;
+
+.user-avatar {
+  width: 24px; 
+  height: auto; 
+  border-radius: 50%;
+  margin-right: 8px;
 }
